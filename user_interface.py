@@ -24,6 +24,12 @@ def get_date():
     return user_date
 
 
+def get_opponent():
+
+    user_opponent = input("Please enter the opponent:")
+
+    return  user_opponent
+
 def selling_menu():
 
     print('''
