@@ -1,5 +1,4 @@
 
-
 def open_menu():
 
     print('''

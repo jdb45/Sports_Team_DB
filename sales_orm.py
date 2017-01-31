@@ -11,21 +11,25 @@ engine = create_engine('sqlite:///sports_sales.db', echo=False)
 # Creating a table for all the things that use Base
 Base.metadata.create_all(engine)
 
-#Making a Session class
+# Making a Session class
 Session = sessionmaker(bind=engine)
 
 
 def handle_choice_main(choice):
-    # menu handler
+    # Main menu handler
 
     if choice == '1':
         selling_screen()
+
+    elif choice == '2':
+        view_all_sales()
 
     elif choice == 'q':
         quit()
 
     else:
         print('Please enter a valid selection')
+
 
 def handle_choice_selling(choice):
     # menu handler for selling screen
@@ -108,6 +112,14 @@ def save_sales():
     save_session.commit()  # All data saved. Now nothing is new, or dirty
 
     save_session.close()
+
+
+def view_all_sales():
+    # viewing all the records
+    search_session = Session()
+
+    for sale in search_session.query(Sales):
+        print(sale)
 
 def main():
 
