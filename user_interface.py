@@ -24,6 +24,13 @@ def get_date():
     return user_date
 
 
+def get_location():
+
+    user_location = input('Please enter the location of the game:')
+
+    return user_location
+
+
 def get_opponent():
 
     user_opponent = input("Please enter the opponent:")

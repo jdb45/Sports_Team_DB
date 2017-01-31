@@ -14,15 +14,42 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 
 
-def handle_choice(choice):
+def handle_choice_main(choice):
     # menu handler
 
-    if choice == 'q':
+    if choice == '1':
+        selling_screen()
+
+    elif choice == 'q':
         quit()
 
     else:
         print('Please enter a valid selection')
 
+def handle_choice_selling(choice):
+    # menu handler for selling screen
+
+    if choice == '1':
+        print()
+
+    elif choice == 'q':
+        main()
+
+    else:
+        print('Please enter a valid selection')
+
+def selling_screen():
+
+    game_date = user_interface.get_date()
+    location_game = user_interface.get_location()
+    opponent_game = user_interface.get_opponent()
+
+    quit = 'q'
+    choice = None
+
+    while choice != quit:
+        choice = user_interface.selling_menu()
+        handle_choice_selling(choice)
 
 
 def main():
@@ -32,7 +59,7 @@ def main():
 
     while choice != quit:
         choice = user_interface.open_menu()
-        handle_choice(choice)
+        handle_choice_main(choice)
 
 
 if __name__ == '__main__':
