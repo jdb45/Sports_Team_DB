@@ -36,19 +36,18 @@ def handle_choice_selling(choice):
     elif choice == '2':
         sell_poster()
 
+    elif choice == '3':
+        sell_hat()
+
     elif choice == 'q':
+        save_sales()
         main()
 
     else:
         print('Please enter a valid selection')
 
+
 def selling_screen():
-
-    game_date = user_interface.get_date()
-    location_game = user_interface.get_location()
-    opponent_game = user_interface.get_opponent()
-
-    save_session = Session()
 
     quit = 'q'
     choice = None
@@ -84,6 +83,31 @@ def sell_hat():
     sales_list[4] += Sales_Object.total
     sales_list[5] += Sales_Object.count
 
+
+def save_sales():
+    global sales_list
+    GAME_DATE = user_interface.get_date()
+    LOCATION_GAME = user_interface.get_location()
+    OPPONENT_GAME = user_interface.get_opponent()
+    SALE_TOTAL = (sales_list[0] + sales_list[2] + sales_list[4])
+    JERSEYS_SOLD_TOTAL = sales_list[0]
+    JERSEYS_SOLD_COUNT = sales_list[1]
+    HATS_SOLD_TOTAL = sales_list[2]
+    HATS_SOLD_COUNT = sales_list[3]
+    POSTERS_SOLD_TOTAL = sales_list[4]
+    POSTERS_SOLD_COUNT = sales_list[5]
+
+    record1 = Games(date=GAME_DATE, opponent_team=OPPONENT_GAME, location=LOCATION_GAME)
+    record2 = Sales(total_sales=SALE_TOTAL, jersey_sales=JERSEYS_SOLD_TOTAL, hat_sales=HATS_SOLD_TOTAL, poster_sales=POSTERS_SOLD_TOTAL, date_sales=GAME_DATE)
+    record3 = Merchandise(jerseys=JERSEYS_SOLD_COUNT, hats=HATS_SOLD_COUNT, posters=POSTERS_SOLD_COUNT, date_merchandise=GAME_DATE)
+
+    save_session = Session()
+
+    save_session.add_all([record1, record2, record3])
+
+    save_session.commit()  # All data saved. Now nothing is new, or dirty
+
+    save_session.close()
 
 def main():
 
