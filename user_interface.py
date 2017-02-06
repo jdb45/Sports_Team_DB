@@ -39,10 +39,11 @@ def get_opponent():
 def selling_menu():
 
     print('''
-        1. Sell shirt
+        1. Sell jersey
         2. Sell poster
         3. Sell hat
         q. Quit
+        e. Exit without saving
     ''')
 
     choice = input('Enter your selection: ')

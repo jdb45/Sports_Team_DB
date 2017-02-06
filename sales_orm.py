@@ -24,6 +24,15 @@ def handle_choice_main(choice):
     elif choice == '2':
         view_all_sales()
 
+    elif choice == '3':
+        delete_sales()
+
+    elif choice == '4':
+        view_top_selling_item()
+
+    elif choice == '5':
+        view_lowest_selling_item()
+
     elif choice == 'q':
         quit()
 
@@ -45,6 +54,9 @@ def handle_choice_selling(choice):
 
     elif choice == 'q':
         save_sales()
+        main()
+
+    elif choice == 'e':
         main()
 
     else:
@@ -109,17 +121,92 @@ def save_sales():
 
     save_session.add_all([record1, record2, record3])
 
-    save_session.commit()  # All data saved. Now nothing is new, or dirty
+    save_session.commit()
 
     save_session.close()
+
+
+def delete_sales():
+
+    user_input = input('This will delete all the data in the database!!! Are you sure you want to do this? y or n')
+    if user_input.lower().startswith("y"):
+        Sales.__table__.drop(engine)
+        Games.__table__.drop(engine)
+        Merchandise.__table__.drop(engine)
+    else:
+        main()
 
 
 def view_all_sales():
     # viewing all the records
     search_session = Session()
+    try:
+        for sale in search_session.query(Sales):
+         print(sale)
+    except:
+        print('The table doesn\'t exist')
 
-    for sale in search_session.query(Sales):
-        print(sale)
+
+def view_top_selling_item():
+    try:
+        search_session = Session()
+        results = search_session.query(Merchandise).all()
+        jersey = 0.0
+        hat = 0.0
+        poster = 0.0
+        row_count = search_session.query(Merchandise).filter(Merchandise.id > 0).count()
+        count = 0
+
+        while True:
+            jersey += results[count].jerseys
+            hat += results[count].hats
+            poster += results[count].posters
+            count += 1
+            if count == row_count:
+                break
+
+        if jersey >= hat and jersey >= poster:
+            print('Jersey\'s are the highest selling item selling a total of', jersey)
+
+        elif hat > jersey and hat > poster:
+            print('Hat\'s are best selling item selling a total of', hat)
+
+        elif poster > jersey and poster > hat:
+            print('Poster\'s are best selling item selling a total of', poster)
+
+    except:
+        print('There are no sales recorded yet')
+
+
+def view_lowest_selling_item():
+    try:
+        search_session = Session()
+        results = search_session.query(Merchandise).all()
+        jersey = 0.0
+        hat = 0.0
+        poster = 0.0
+        row_count = search_session.query(Merchandise).filter(Merchandise.id > 0).count()
+        count = 0
+
+        while True:
+            jersey += results[count].jerseys
+            hat += results[count].hats
+            poster += results[count].posters
+            count += 1
+            if count == row_count:
+                break
+
+        if jersey <= hat and jersey <= poster:
+            print('Jersey\'s are the lowest selling item selling a total of', jersey)
+
+        elif hat < jersey and hat < poster:
+            print('Hat\'s are lowest selling item selling a total of', hat)
+
+        elif poster < jersey and poster < hat:
+            print('Poster\'s are lowest selling item selling a total of', poster)
+    except:
+        print('There are no sales recorded yet')
+
 
 def main():
 
