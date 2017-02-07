@@ -52,6 +52,7 @@ class Merchandise(Base):
     hats = Column(Integer)
     posters = Column(Integer)
     date_merchandise = Column(String)
+    # I probably don't need this.
     ForeignKeyConstraint(['date_sales'], ['Games.date'])
 
 

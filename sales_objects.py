@@ -1,4 +1,4 @@
-
+# used to get sales objects
 class Sales_Object:
 
     def __init__(self, total, count):
