@@ -1,3 +1,5 @@
+import os
+import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from base import Base
@@ -134,9 +136,11 @@ def delete_sales():
     try:
         user_input = input('This will delete all the data in the database!!! Are you sure you want to do this? y or n')
         if user_input.lower().startswith("y"):
-            Sales.__table__.drop(engine)
+            Sales.__table__.drop(engine)  # dropping the tables
             Games.__table__.drop(engine)
             Merchandise.__table__.drop(engine)
+            python = sys.executable  # restarting the program to re-add the tables
+            os.execl(python, python, *sys.argv)
         else:
             main()
     except:
